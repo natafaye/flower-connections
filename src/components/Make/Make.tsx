@@ -15,7 +15,7 @@ export default function Make() {
         ))}
       </div>
       <div className="flex-grow flex-shrink overflow-hidden">
-        <Board/>
+        <Board cluesEditable/>
       </div>
     </div>
   )
