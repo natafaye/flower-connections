@@ -1,21 +1,22 @@
 import { useState } from "react"
-import type { TileData } from "../../types"
-import Tile from "../Tile"
-import { TEST_TILES } from "../../test-tiles"
 import Board from "../Board/"
+import { Tile } from "../Tile"
+import type { TileData } from "../../types"
+import { TEST_TILES } from "../../test-tiles"
 
 export default function Make() {
-  const [tiles, setTiles] = useState<TileData[]>(TEST_TILES)
+  const [unusedTiles, setUnusedTiles] = useState<TileData[]>(TEST_TILES)
+  const [boardTiles, setBoardTiles] = useState<TileData[]>([])
 
   return (
     <div className="flex flex-col gap-3 h-screen w-screen">
       <div className="flex p-[3%] gap-[3%]">
-        {tiles.map(tile => (
-          <Tile tile={tile}/>
+        {unusedTiles.map(tile => (
+          <Tile key={tile.words.join()} tile={tile}/>
         ))}
       </div>
       <div className="flex-grow flex-shrink overflow-hidden">
-        <Board cluesEditable/>
+        <Board cluesEditable tiles={boardTiles}/>
       </div>
     </div>
   )

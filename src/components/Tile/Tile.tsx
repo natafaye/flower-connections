@@ -11,6 +11,7 @@ export default function Tile({ tile: { words, rotation } }: Props) {
         <TileBorder rotation={rotation} className="relative flex flex-grow">
             {words.map((word, index) => (
                 <div
+                    key={word}
                     className="absolute h-[85%] mt-[12%] w-full text-center"
                     style={{ rotate: rotations[index] + "deg" }}>
                     {word}
