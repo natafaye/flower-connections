@@ -1,42 +1,43 @@
-import { CSSProperties, ReactNode } from "react"
+import { HTMLAttributes, Ref } from "react"
 import Pentagon from "./Pentagon"
 import { ASPECT_RATIO } from "../../shared"
 
 type Props = {
-  children?: ReactNode
   rotation?: number
   fill?: string
-  strokeWidth?: number
   stroke?: string
-  className?: string
-  style?: CSSProperties
-  pentagonRotation?: number
-}
+  strokeWidth?: number
+  shapeRotation?: number
+  ref?: Ref<HTMLDivElement>
+} & HTMLAttributes<HTMLDivElement>
 
 export default function TileBorder({
   children,
-  className,
   fill,
-  strokeWidth,
   stroke,
+  strokeWidth,
+  ref,
   style = {},
   rotation = 0,
-  pentagonRotation = 0
+  shapeRotation = 0,
+  ...props
 }: Props) {
   return (
     <div
-      className={className}
+      ref={ref}
       style={{
-        rotate: rotation + "deg",
+        transform: `rotate(${rotation}deg)`,
         aspectRatio: ASPECT_RATIO,
         ...style
       }}
+      {...props}
     >
       <Pentagon
         fill={fill}
-        strokeWidth={strokeWidth}
         stroke={stroke}
-        style={{ rotate: pentagonRotation + "deg" }}
+        strokeWidth={strokeWidth}
+        className="absolute"
+        style={{ transform: `rotate(${shapeRotation}deg)` }}
       />
       {children}
     </div>

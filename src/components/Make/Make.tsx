@@ -1,23 +1,33 @@
-import { useState } from "react"
-import Board from "../Board/"
-import { Tile } from "../Tile"
-import type { TileData } from "../../types"
-import { TEST_TILES } from "../../test-tiles"
+import TileDraggingContext from "./TileDraggingContext"
+import Board from "../Board"
+import Bank from "./Bank"
+import { BANK, BOARD, useTileLists } from "./useTileLists"
+import { useBoardRotation } from "./useBoardRotation"
 
 export default function Make() {
-  const [unusedTiles, setUnusedTiles] = useState<TileData[]>(TEST_TILES)
-  const [boardTiles, setBoardTiles] = useState<TileData[]>([])
+  const [tiles, dispatch] = useTileLists()
+  const boardRotation = useBoardRotation()
+
+  const tilesEditable = true
+  const cluesEditable = false
 
   return (
-    <div className="flex flex-col gap-3 h-screen w-screen">
-      <div className="flex p-[3%] gap-[3%]">
-        {unusedTiles.map(tile => (
-          <Tile key={tile.words.join()} tile={tile}/>
-        ))}
-      </div>
-      <div className="flex-grow flex-shrink overflow-hidden">
-        <Board cluesEditable tiles={boardTiles}/>
-      </div>
+    <div className="flex flex-col gap-3 h-screen w-screen overflow-hidden">
+      <TileDraggingContext
+        tiles={tiles}
+        boardRotation={boardRotation}
+        dispatch={dispatch}
+      >
+        <Bank tiles={tiles[BANK]} tilesEditable={tilesEditable} />
+        <div className="flex-grow flex-shrink overflow-hidden">
+          <Board
+            cluesEditable={cluesEditable}
+            tilesEditable={tilesEditable}
+            tiles={tiles[BOARD]}
+            boardRotation={boardRotation}
+          />
+        </div>
+      </TileDraggingContext>
     </div>
   )
 }
